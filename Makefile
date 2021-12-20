@@ -18,5 +18,11 @@ ping-webservers:
 ping-localhost:
 	ansible -i localhost.ini all -m ping
 
-play-playbook:
+play-playbook-nginx:
+	ansible-playbook -i inventory.ini nginx.yml
+
+play-playbook-git:
 	ansible-playbook -i inventory.ini main.yml
+
+play-playbook-remove-git:
+	ansible-playbook -i inventory.ini remove_git.yml
