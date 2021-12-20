@@ -1,0 +1,14 @@
+  - name: Setup webservers
+    hosts: webservers
+    become: true
+    tasks:
+      - name: Update Apt cache
+        ansible.builtin.apt:
+          update_cache: yes
+        tags:
+          - update_cache
+      - name: Install git
+        ansible.builtin.apt:
+          name: git
+          tags:
+          - install_git

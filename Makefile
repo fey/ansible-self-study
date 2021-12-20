@@ -17,3 +17,6 @@ ping-webservers:
 
 ping-localhost:
 	ansible -i localhost.ini all -m ping
+
+play-playbook:
+	ansible-playbook -i inventory.ini main.yml
