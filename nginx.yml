@@ -1,0 +1,31 @@
+- name: Setup nginx
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+      tags:
+        - install_nginx
+
+    - name: Add index.html
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /usr/share/nginx/html/index.html
+
+    - name: update nginx config
+      ansible.builtin.copy:
+        src: files/nginx.conf
+        dest: /etc/nginx/nginx.conf
+      notify:
+        - restart nginx
+      tags:
+        - configure_nginx
+
+  handlers:
+  - name: restart nginx
+    become: yes
+    ansible.builtin.service:
+      name: nginx
+      state: reloaded

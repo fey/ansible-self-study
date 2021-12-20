@@ -1,0 +1,10 @@
+- name: Setup webservers
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Remove git
+      ansible.builtin.apt:
+        name: git
+        state: absent
+      tags:
+      - remove_git
