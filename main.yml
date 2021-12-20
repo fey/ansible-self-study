@@ -1,14 +1,47 @@
-  - name: Setup webservers
-    hosts: webservers
-    become: true
-    tasks:
-      - name: Update Apt cache
-        ansible.builtin.apt:
-          update_cache: yes
-        tags:
-          - update_cache
-      - name: Install git
-        ansible.builtin.apt:
-          name: git
-          tags:
-          - install_git
+- name: Setup webservers
+  hosts: webservers
+  become: true
+  tasks:
+    - name: Update Apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+      tags:
+        - update_cache
+
+    - name: Install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+      tags:
+      - install_git
+
+- name: Setup nginx
+  hosts: webservers
+  become: true
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+      tags:
+        - install_nginx
+
+    - name: Add index.html
+      ansible.builtin.copy:
+        src: files/index.html
+        dest: /usr/share/nginx/html/index.html
+
+    - name: update nginx config
+      ansible.builtin.copy:
+        src: files/nginx.conf
+        dest: /etc/nginx/nginx.conf
+      notify:
+        - restart nginx
+      become: yes
+
+  handlers:
+  - name: restart nginx
+    ansible.builtin.service:
+      name: nginx
+      state: reloaded
+    become: yes
