@@ -26,3 +26,6 @@ play-playbook-git:
 
 play-playbook-remove-git:
 	ansible-playbook -i inventory.ini remove_git.yml
+
+show-webservers-setup:
+	ansible -i inventory.ini webservers -m setup
