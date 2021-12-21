@@ -8,11 +8,13 @@
         state: present
       tags:
         - install_nginx
+      when: ansible_distribution == "Ubuntu"
 
     - name: Add index.html
       ansible.builtin.template:
         src: templates/index.html.j2
         dest: "{{ root_dir }}/index.html"
+      when: ansible_distribution == "Ubuntu"
 
     - name: update nginx config
       ansible.builtin.template:
@@ -22,6 +24,7 @@
         - restart nginx
       tags:
         - configure_nginx
+      when: ansible_distribution == "Ubuntu"
 
   handlers:
   - name: restart nginx

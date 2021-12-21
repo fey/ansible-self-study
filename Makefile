@@ -22,7 +22,7 @@ play-playbook-nginx:
 	ansible-playbook -i inventory.ini nginx.yml
 
 play-playbook-git:
-	ansible-playbook -i inventory.ini main.yml
+	ansible-playbook -i inventory.ini setup_git.yml
 
 play-playbook-remove-git:
 	ansible-playbook -i inventory.ini remove_git.yml

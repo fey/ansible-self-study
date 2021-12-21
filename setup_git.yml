@@ -1,0 +1,33 @@
+- name: Setup webservers
+  hosts: webservers
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Update Apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+      tags:
+        - update_cache
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install git
+      ansible.builtin.apt:
+        name: git
+        state: present
+      tags:
+      - install_git
+      when: ansible_distribution == "Ubuntu"
+
+    - name: add users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+        shell: /bin/bash
+      loop: "{{ users }}"
+
+    - name: add Gitconfig for users
+      ansible.builtin.template:
+        src: templates/gitconfig.j2
+        dest: "/home/{{ item }}/.gitconfig"
+      loop: "{{ users }}"
+      when: ansible_distribution == "Ubuntu"

@@ -1,3 +1,8 @@
 nginx_port: 8081
 root_dir: /usr/share/nginx/html
-server_name: "{{ ansible_memtotal_mb }}"
+server_name: "{{ ansible_hostname }}"
+users:
+  - jaime
+  - sansa
+  - robert
+server_message: "This is server {{ server_name }}!"
