@@ -1,0 +1,5 @@
+- name: Setup git for users
+  ansible.builtin.import_playbook: setup_git.yml
+
+- name: Setup and configure Nginx
+  ansible.builtin.import_playbook: nginx.yml
