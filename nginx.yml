@@ -1,3 +1,24 @@
+- name: Cowsay
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Install cowsay
+      ansible.builtin.apt:
+        name: cowsay
+        state: present
+      tags:
+        - install_nginx
+      when: ansible_distribution == "Ubuntu"
+
+    - name: run cowsay
+      ansible.builtin.command: "/usr/games/cowsay {{ server_message }}"
+      register: cowsay_result
+
+    - name: debug
+      debug:
+        msg: "{{cowsay_result['stdout_lines']| join('\n')}}"
+
+
 - name: Setup nginx
   hosts: webservers
   become: yes
